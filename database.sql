@@ -59,7 +59,8 @@ CREATE TABLE IF NOT EXISTS `questions` (
   `blanks` TEXT, -- JSON array of strings
   `items` TEXT, -- JSON array of strings
   `correct_order` TEXT, -- JSON array of integers
-  `array_data` TEXT -- JSON array of strings
+  `array_data` TEXT, -- JSON array of strings
+  `image_url` VARCHAR(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- 6. Curated Code Challenges (LeetCode / Striver A2Z)
@@ -114,22 +115,18 @@ INSERT INTO `questions` (`id`, `category_id`, `type`, `question`, `options`, `co
 ('b4', 'basics', 'FILL_BLANK', 'A queue is a FIFO data structure. FIFO stands for First In First ______.', NULL, '"Out"', 'FIFO stands for First In First Out.', NULL, NULL, NULL, NULL, NULL),
 ('b5', 'basics', 'MULTIPLE_CHOICE', 'What is the index of the first element in a standard array?', '["1", "-1", "0", "Any of these"]', '2', 'Standard array indexing is 0-based, so the first element is at index 0.', NULL, NULL, NULL, NULL, NULL);
 
--- Insert Array Foundations Questions (Language Independent)
+-- Insert Array Foundations Questions (Language Independent 10-Step Progression)
 INSERT INTO `questions` (`id`, `category_id`, `type`, `question`, `options`, `correct_answer`, `explanation`, `code`, `blanks`, `items`, `correct_order`, `array_data`) VALUES
-('a1', 'array', 'THEORY', 'What is an Array? 🎬', NULL, '""', 'Imagine the movie theater seats inside your phone. An Array is a reserved block of seats sitting side-by-side (contiguous memory).', '// Declaring a simple array\nString[] cast = {"Tom Cruise", "Zendaya"};', NULL, NULL, NULL, NULL),
-('a2', 'array', 'THEORY', 'The Indexing Rule! 🏁', NULL, '""', 'We don\'t start counting at 1. We start at 0! Index 0 is the first seat, Index 1 is the second, and so on.', '// Tom is at index 0\n// Zendaya is at index 1', NULL, NULL, NULL, NULL),
-('a3', 'array', 'ARRAY_INTERACTION', 'Zendaya wants the Lead Actor seat (Index 0). Drag her there!', NULL, '["Zendaya", "Tom Cruise"]', 'Perfect! In Arrays, the first position is always index 0.', 'System.out.println(cast[0]); // Outputs: Zendaya', NULL, '["Zendaya"]', NULL, '["(empty slot)", "Tom Cruise"]'),
-('a4', 'array', 'MULTIPLE_CHOICE', 'If an array has 5 elements, what is the index of the very last element?', '["5", "4", "0", "1"]', '1', 'Correct! Since indexing is 0-based, the 5th element sits at index 4 (N-1).', NULL, NULL, NULL, NULL, NULL),
-('a5', 'array', 'THEORY', 'The Swap! 🏗️', NULL, '""', 'You can replace an element at any time by assigning a new value to its index. The old value is overwritten!', 'cast[0] = "Spider-Man";\n// Zendaya is replaced by Spider-Man', NULL, NULL, NULL, NULL),
-('a6', 'array', 'ARRAY_INTERACTION', 'Replace \'Tom Cruise\' with \'Robert\' at Index 1.', NULL, '["Zendaya", "Robert"]', 'Update complete! You\'ve modified the array content at index 1.', 'cast[1] = "Robert";', NULL, '["Robert"]', NULL, '["Zendaya", "Tom Cruise"]'),
-('a7', 'array', 'THEORY', 'Appending Elements! ✨', NULL, '""', 'Appending adds an element to the very END of the list. It is fast and runs in O(1) time.', 'list.append("The Rock");\n// ["Zendaya", "Robert", "The Rock"]', NULL, NULL, NULL, NULL),
-('a8', 'array', 'ARRAY_INTERACTION', 'Add \'The Rock\' to the end of the film strip.', NULL, '["Zendaya", "Robert", "The Rock"]', 'Great! Appending always targets the last available position.', 'list.append("The Rock");', NULL, '["The Rock"]', NULL, '["Zendaya", "Robert"]'),
-('a9', 'array', 'THEORY', 'The Big Squeeze! 🏃‍♂️', NULL, '""', 'Inserting in the middle is "expensive" O(N). Everyone to the right has to shift over by one slot to make room!', 'list.insert(1, "Spider-Man");\n// Everyone from index 1 shifts right!', NULL, NULL, NULL, NULL),
-('a10', 'array', 'ARRAY_INTERACTION', 'Squeeze \'Spider-Man\' between \'Zendaya\' and \'Robert\'.', NULL, '["Zendaya", "Spider-Man", "Robert"]', 'Shifting was required! You can see why inserting in a large array takes more time.', 'list.insert(1, "Spider-Man");', NULL, '["Spider-Man"]', NULL, '["Zendaya", "Robert"]'),
-('a11', 'array', 'THEORY', 'Popping Elements! ✂️', NULL, '""', 'Popping removes the last element from the list. It takes O(1) time because no elements need to be shifted.', 'list.pop(); // Removes "The Rock"', NULL, NULL, NULL, NULL),
-('a12', 'array', 'ARRAY_INTERACTION', 'Remove the \'Blooper\' from the end.', NULL, '["Action", "Drama"]', 'Scene deleted! pop() kept the core movie safe.', 'list.pop();', NULL, '["Blooper"]', NULL, '["Action", "Drama", "Blooper"]'),
-('a13', 'array', 'THEORY', 'Sorting the Array! 🏆', NULL, '""', 'Sorting organizes your array elements in ascending order, which takes O(N log N) time.', 'ratings.sort(); // [2, 5, 8]', NULL, NULL, NULL, NULL),
-('a14', 'array', 'ARRAY_INTERACTION', 'Sort these alphabetically: Avengers, Batman, Cars.', NULL, '["Avengers", "Batman", "Cars"]', 'Perfectly sorted! Your library is now organized.', 'movies.sort();', NULL, '["Batman", "Cars", "Avengers"]', NULL, '["(empty slot)", "(empty slot)", "(empty slot)"]');
+('a1', 'array', 'THEORY', 'What is an Array? 📊', NULL, '""', 'An Array is a contiguous block of memory cells sitting side-by-side. Elements can be directly accessed in O(1) time using their numeric index.', 'int[] scores = {10, 20, 30, 40};', NULL, NULL, NULL, '["10", "20", "30", "40"]'),
+('a2', 'array', 'MULTIPLE_CHOICE', 'Array Indexing Rule 🏁: If an array has 4 items [10, 20, 30, 40], what is the index of the first and last elements?', '["First: 1, Last: 4", "First: 0, Last: 3", "First: 0, Last: 4", "First: 1, Last: 3"]', '1', 'Array indexing is 0-based. For N elements, valid indices range from 0 to N-1 (0 to 3).', '// Index 0: 10\n// Index 3: 40', NULL, NULL, NULL, '["10", "20", "30", "40"]'),
+('a3', 'array', 'ARRAY_INTERACTION', 'Access Challenge 🎯: Tap the element sitting at index 2 to retrieve its value.', NULL, '["10", "20", "30", "40"]', 'Great job! scores[2] accesses the 3rd element which is 30.', 'int value = scores[2]; // value = 30', NULL, '["30"]', NULL, '["10", "20", "30", "40"]'),
+('a4', 'array', 'ARRAY_INTERACTION', 'Update Challenge ✏️: Replace the element at index 1 with 99.', NULL, '["10", "99", "30", "40"]', 'Correct! Updating an element by index overwrites the previous value in O(1) time.', 'scores[1] = 99;\n// array is now [10, 99, 30, 40]', NULL, '["99"]', NULL, '["10", "20", "30", "40"]'),
+('a5', 'array', 'ARRAY_INTERACTION', 'Append Challenge ➕: Append 50 to the end of the array.', NULL, '["10", "20", "30", "40", "50"]', 'Awesome! Appending places the new item at the next available index at the end.', 'scores.append(50);\n// array is now [10, 20, 30, 40, 50]', NULL, '["50"]', NULL, '["10", "20", "30", "40"]'),
+('a6', 'array', 'ARRAY_INTERACTION', 'Insert Challenge 🏃: Insert 25 at index 2. Notice how elements at and after index 2 shift right!', NULL, '["10", "20", "25", "30", "40"]', 'Well done! Inserting at index 2 requires shifting subsequent elements right, taking O(N) time.', 'scores.insert(2, 25);\n// [10, 20, 25, 30, 40]', NULL, '["25"]', NULL, '["10", "20", "30", "40"]'),
+('a7', 'array', 'ARRAY_INTERACTION', 'Delete Challenge ✂️: Delete the element 30 from the array.', NULL, '["10", "20", "40"]', 'Element deleted! The remaining elements shift left to fill the empty slot in O(N) time.', 'scores.remove(2); // deletes 30', NULL, '["30"]', NULL, '["10", "20", "30", "40"]'),
+('a8', 'array', 'ARRAY_INTERACTION', 'Search Challenge 🔍: Linear search for target 30 in the array.', NULL, '["10", "20", "30", "40"]', 'Target found at index 2! Linear search scans from index 0 until the target matches in O(N) time.', 'int index = scores.indexOf(30); // returns 2', NULL, '["30"]', NULL, '["10", "20", "30", "40"]'),
+('a9', 'array', 'MULTIPLE_CHOICE', 'Time Complexity Challenge ⏱️: What are the average time complexities for Index Access vs Middle Insertion?', '["Access: O(1), Insert: O(N)", "Access: O(N), Insert: O(1)", "Access: O(1), Insert: O(1)", "Access: O(N), Insert: O(N)"]', '0', 'Access by index is instant O(1) through memory offsets. Insertion in the middle requires shifting elements O(N).', NULL, NULL, NULL, NULL, '["10", "20", "30", "40"]'),
+('a10', 'array', 'ARRAY_INTERACTION', 'Array Boss Challenge 👑: Transform array [10, 20, 30, 40, 50] by deleting 30, inserting 25 at index 2, and updating 50 to 60!', NULL, '["10", "20", "25", "40", "60"]', 'CONGRATULATIONS! You have mastered Array operations and defeated the Array Boss! 👑 +50 XP and a Crown awarded!', '// Final array after Boss sequence:\n// [10, 20, 25, 40, 60]', NULL, '["25", "60"]', NULL, '["10", "20", "30", "40", "50"]');
 
 -- Curated Code Challenges
 INSERT INTO `challenges` (`id`, `title`, `description`, `difficulty`, `category`, `xp_reward`, `time_limit`, `link`) VALUES

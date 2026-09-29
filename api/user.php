@@ -82,7 +82,7 @@ function checkAndUnlockAchievements($db, $userId) {
         $stmt = $db->prepare($checkArr);
         $stmt->execute([':user_id' => $userId]);
         $arrResult = $stmt->fetch();
-        if (intval($arrResult['completed']) >= 14) {
+        if (intval($arrResult['completed']) >= 10) {
             $unlocked[] = 'array_master';
         }
     }

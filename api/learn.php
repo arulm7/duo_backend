@@ -46,7 +46,7 @@ try {
         $completedQuestions = intval($cat['completed_questions']);
 
         if ($totalQuestions === 0) {
-            $totalQuestions = ($catId === 'array') ? 14 : (($catId === 'basics') ? 5 : 10);
+            $totalQuestions = ($catId === 'array') ? 10 : (($catId === 'basics') ? 5 : 10);
         }
 
         $colorHex = $cat['color'];

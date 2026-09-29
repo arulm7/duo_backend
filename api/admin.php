@@ -57,6 +57,7 @@ if ($action === 'add_question') {
     $items = isset($input['items']) ? $input['items'] : null;
     $correctOrder = isset($input['correct_order']) ? $input['correct_order'] : null;
     $arrayData = isset($input['array_data']) ? $input['array_data'] : null;
+    $imageUrl = isset($input['image_url']) ? trim($input['image_url']) : null;
 
     if (empty($id) || empty($categoryId) || empty($questionText) || empty($explanation)) {
         sendResponse(400, ["status" => "error", "message" => "Required fields missing (id, category_id, question, explanation)."]);
@@ -70,8 +71,8 @@ if ($action === 'add_question') {
             sendResponse(409, ["status" => "error", "message" => "A question with ID '$id' already exists."]);
         }
 
-        $query = "INSERT INTO questions (id, category_id, type, question, options, correct_answer, explanation, code, blanks, items, correct_order, array_data) 
-                  VALUES (:id, :category_id, :type, :question, :options, :correct_answer, :explanation, :code, :blanks, :items, :correct_order, :array_data)";
+        $query = "INSERT INTO questions (id, category_id, type, question, options, correct_answer, explanation, code, blanks, items, correct_order, array_data, image_url) 
+                  VALUES (:id, :category_id, :type, :question, :options, :correct_answer, :explanation, :code, :blanks, :items, :correct_order, :array_data, :image_url)";
         
         $stmt = $db->prepare($query);
         $stmt->execute([
@@ -86,7 +87,8 @@ if ($action === 'add_question') {
             ':blanks' => $blanks ? json_encode($blanks) : null,
             ':items' => $items ? json_encode($items) : null,
             ':correct_order' => $correctOrder ? json_encode($correctOrder) : null,
-            ':array_data' => $arrayData ? json_encode($arrayData) : null
+            ':array_data' => $arrayData ? json_encode($arrayData) : null,
+            ':image_url' => $imageUrl ? $imageUrl : null
         ]);
 
         sendResponse(201, ["status" => "success", "message" => "Question added successfully!"]);
@@ -108,6 +110,7 @@ elseif ($action === 'edit_question') {
     $items = isset($input['items']) ? $input['items'] : null;
     $correctOrder = isset($input['correct_order']) ? $input['correct_order'] : null;
     $arrayData = isset($input['array_data']) ? $input['array_data'] : null;
+    $imageUrl = isset($input['image_url']) ? trim($input['image_url']) : null;
 
     if (empty($id) || empty($categoryId) || empty($questionText) || empty($explanation)) {
         sendResponse(400, ["status" => "error", "message" => "Required fields missing (id, category_id, question, explanation)."]);
@@ -125,7 +128,8 @@ elseif ($action === 'edit_question') {
                     blanks = :blanks, 
                     items = :items, 
                     correct_order = :correct_order, 
-                    array_data = :array_data
+                    array_data = :array_data,
+                    image_url = :image_url
                   WHERE id = :id";
         
         $stmt = $db->prepare($query);
@@ -141,7 +145,8 @@ elseif ($action === 'edit_question') {
             ':blanks' => $blanks ? json_encode($blanks) : null,
             ':items' => $items ? json_encode($items) : null,
             ':correct_order' => $correctOrder ? json_encode($correctOrder) : null,
-            ':array_data' => $arrayData ? json_encode($arrayData) : null
+            ':array_data' => $arrayData ? json_encode($arrayData) : null,
+            ':image_url' => $imageUrl ? $imageUrl : null
         ]);
 
         sendResponse(200, ["status" => "success", "message" => "Question updated successfully!"]);
